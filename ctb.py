@@ -13,10 +13,10 @@ from utility import make_sure_path_exists, eprint, combine_files
 
 def convert(ctb_root, out_root):
     ctb_root = join(ctb_root, 'bracketed')
-    fids = [f for f in listdir(ctb_root) if isfile(join(ctb_root, f)) and f.endswith('.fid')]
+    fids = [f for f in listdir(ctb_root) if isfile(join(ctb_root, f))]
     make_sure_path_exists(out_root)
     for f in fids:
-        with open(join(ctb_root, f), encoding='GB2312') as src, open(join(out_root, f), 'w') as out:
+        with open(join(ctb_root, f), encoding='utf-8') as src, open(join(out_root, f), 'w') as out:
             in_s_tag = False
             try:
                 for line in src:
@@ -34,9 +34,9 @@ def combine_fids(fids, out_path):
     print('Generating ' + out_path)
     files = []
     for fid in fids:
-        f = 'chtb_%03d.fid' % fid
+        f = 'chtb_%04d.nw' % fid
         if fid > 1000:
-            f = 'chtb_%04d.fid' % fid
+            f = 'chtb_%04d.mz' % fid
         if isfile(join(ctb_in_nltk, f)):
             files.append(f)
     with open(out_path, 'w') as out:
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     from nltk.corpus import BracketParseCorpusReader, LazyCorpusLoader
 
     ctb = LazyCorpusLoader(
-        'ctb', BracketParseCorpusReader, r'chtb_.*\.fid',
+        'ctb', BracketParseCorpusReader, r'chtb_\d{4}\.\w{2}',
         tagset='unknown')
 
     training = list(range(1, 815 + 1)) + list(range(1001, 1136 + 1))
