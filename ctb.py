@@ -81,3 +81,4 @@ if __name__ == '__main__':
     combine_fids(training, join(root_path, 'train.txt'))
     combine_fids(development, join(root_path, 'dev.txt'))
     combine_fids(test, join(root_path, 'test.txt'))
+    
